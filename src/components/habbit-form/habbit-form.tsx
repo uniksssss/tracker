@@ -19,6 +19,10 @@ function HabbitForm({ onClose, onCreate }: HabbitFormProps) {
             name, description, weeks: Number(weeks),
             onDelete: function (): void {
                 throw new Error("Function not implemented.");
+            },
+            checked: Array(Number(weeks) * 7).fill(false),
+            onCheck: function (): void {
+                throw new Error("Function not implemented.");
             }
         });
         onClose();

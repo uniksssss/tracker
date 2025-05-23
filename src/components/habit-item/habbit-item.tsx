@@ -1,23 +1,30 @@
 import './habit-item.css'
-import { useState } from 'react';
+import { useEffect } from 'react';
 
 export type HabbitItemProps ={
     name: string;
     description: string;
     weeks: number;
     onDelete: () => void;
+    checked: boolean[];
+    onCheck: (checked: boolean[]) => void;
 }
 
-function HabbitItem({name, description, weeks, onDelete}: HabbitItemProps){
+function HabbitItem({name, description, weeks, onDelete, checked, onCheck}: HabbitItemProps){
     const days = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
     const totalDays = weeks * 7;
-    const [checked, setChecked] = useState<boolean[]>(Array(totalDays).fill(false));
+    // const [checked, setChecked] = useState<boolean[]>(Array(totalDays).fill(false));
 
     function handleCheckHabbit(index: number){
-        setChecked(prev => prev.map((val, i)=>(i === index ? !val : val)));
+        const newChecked = checked.map((val, i)=>(i === index ? !val : val));
+        onCheck(newChecked);
     }
 
     const activeCount = checked.filter(Boolean).length;
+
+    useEffect(() => {
+            localStorage.setItem('checked', JSON.stringify(checked));
+        }, [checked]);
 
     return(
         <div className="habit-item">
